@@ -3,6 +3,10 @@ from matrix import *
 from gmath import *
 
 def scanline_convert(polygons, i, screen, zbuffer ):
+    for x in range(0, len(polygons)-2, 3):
+        s=(polygons[x][0]-polygons[x+1][3])/(polygons)
+        d=polygons[x][2]-polygons[x][4]
+        
     pass
 
 def add_polygon( polygons, x0, y0, z0, x1, y1, z1, x2, y2, z2 ):
