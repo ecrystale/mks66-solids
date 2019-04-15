@@ -2,10 +2,25 @@ from display import *
 from matrix import *
 from gmath import *
 
+
+def new_zbuffer():
+    zb=[]
+
+def clear_zbuffer(zb):
+    zb=[]
+    
 def scanline_convert(polygons, i, screen, zbuffer ):
     for x in range(0, len(polygons)-2, 3):
-        s=(polygons[x][0]-polygons[x+1][3])/(polygons)
-        d=polygons[x][2]-polygons[x][4]
+        s=(polygons[x+1][0]-polygons[x][0])/(polygons[x+1][1]-polygons[x][1])
+        d=(polygons[x+1][2]-polygons[x][4])/(polygons[x+1][1]-polygons[x][1])
+        if len(zbuffer)<1:
+            zbuffer.append(x)
+        else:
+            for i in zbuffer:
+                if i[0]==polygons[x][0] and i[1]==polygons[x][1]:
+                    if i[2]<polygons[x][2]:
+                        i=polygons[x]
+                                      
         
     pass
 
@@ -16,7 +31,7 @@ def add_polygon( polygons, x0, y0, z0, x1, y1, z1, x2, y2, z2 ):
 
 def draw_polygons( polygons, screen, zbuffer, color ):
     if len(polygons) < 2:
-        print 'Need at least 3 points to draw'
+        print ('Need at least 3 points to draw')
         return
 
     point = 0
@@ -233,7 +248,7 @@ def add_curve( points, x0, y0, x1, y1, x2, y2, x3, y3, step, curve_type ):
 
 def draw_lines( matrix, screen, zbuffer, color ):
     if len(matrix) < 2:
-        print 'Need at least 2 points to draw'
+        print ('Need at least 2 points to draw')
         return
 
     point = 0
