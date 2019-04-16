@@ -3,26 +3,23 @@ from matrix import *
 from gmath import *
 
 
-def new_zbuffer():
-    zb=[]
-
-def clear_zbuffer(zb):
-    zb=[]
-    
 def scanline_convert(polygons, i, screen, zbuffer ):
-    for x in range(0, len(polygons)-2, 3):
+    for x in range(0, len(polygons)-1, 2):
         s=(polygons[x+1][0]-polygons[x][0])/(polygons[x+1][1]-polygons[x][1])
         d=(polygons[x+1][2]-polygons[x][4])/(polygons[x+1][1]-polygons[x][1])
+        polygons[x+1][0]=polygons[x][0]+s
+        polygons[x+1][2]=polygons[x][2]+d
         if len(zbuffer)<1:
             zbuffer.append(x)
         else:
-            for i in zbuffer:
-                if i[0]==polygons[x][0] and i[1]==polygons[x][1]:
-                    if i[2]<polygons[x][2]:
-                        i=polygons[x]
-                                      
+            for i in range(0,len(zbuffer)):
+                if zbuffer[i][0]==polygons[x][0] and zbuffer[i][1]==polygons[x][1]:
+                    if zbuffer[i][2]<polygons[x][2]:
+                        zbuffer[i]=polygons[x]
+                    else:
+                        pass
         
-    pass
+        
 
 def add_polygon( polygons, x0, y0, z0, x1, y1, z1, x2, y2, z2 ):
     add_point(polygons, x0, y0, z0)
